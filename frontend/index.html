@@ -1,0 +1,250 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuraStyle - AI Fashion Discovery</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=2">
+</head>
+<body>
+
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="splash-screen">
+        <div class="splash-content text-center">
+            <h1 class="splash-logo">AuraStyle</h1>
+            <div class="spinner-border text-primary mt-3" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2 text-muted">Curating your style...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top glass-nav shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#" id="nav-brand">AuraStyle</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-3">
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold" href="#" id="nav-home-link">Home</a>
+                    </li>
+
+                    <li class="nav-item d-none" id="nav-profile-item">
+                        <span class="nav-link text-muted fw-medium" id="nav-username"></span>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <button class="btn btn-link nav-link" id="theme-toggle" title="Toggle Theme">
+                        <i class="bi bi-moon-stars"></i>
+                    </button>
+                    <div id="auth-buttons" class="d-none"></div>
+                    <div id="user-menu" class="d-none dropdown">
+                        <button class="btn btn-link nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle fs-5"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="profile.html">Dashboard</a></li>
+                            <li><a class="dropdown-item" href="profile.html">Favorites</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" id="btn-logout">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="container mt-5 pt-5 animate-fade-up" id="main-content">
+        <!-- Hero & Search Section -->
+        <section class="hero-section text-center py-5">
+            <h1 class="display-4 fw-bold mb-3">Discover Your Aura</h1>
+            <p class="lead text-muted mb-5">Search fashion with natural language or images using AI.</p>
+            
+            <div class="search-container mx-auto position-relative" style="max-width: 800px;">
+                <div class="input-group input-group-lg shadow-sm search-box-wrapper glass-panel">
+                    <input type="text" class="form-control border-0 bg-transparent px-4" id="search-input" placeholder="Search for products...">
+                    <div class="d-flex align-items-center gap-2 border-start ps-3">
+                        <button class="btn btn-link text-muted p-2" id="btn-voice-search" title="Voice Search"><i class="bi bi-mic-fill fs-5"></i></button>
+                        <label for="image-upload-input" class="btn btn-link text-muted p-2 mb-0" title="Image Search"><i class="bi bi-camera-fill fs-5"></i></label>
+                        <input type="file" id="image-upload-input" class="d-none" accept="image/*">
+                        <button class="btn btn-light rounded-pill px-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas">
+                            <i class="bi bi-sliders me-1"></i> Filters
+                        </button>
+                        <button class="btn btn-primary rounded-pill px-4 py-2 fw-bold fs-5 shadow-sm" id="btn-search">Search</button>
+                    </div>
+                </div>
+                
+                <!-- Search Autocomplete Dropdown -->
+                <div id="search-autocomplete-dropdown" class="position-absolute w-100 mt-2 rounded-4 shadow-lg d-none overflow-hidden text-start" style="z-index: 1000; top: 100%; background-color: var(--bg-color); border: 1px solid var(--border-color);">
+                    <!-- Default State: Popular & Recent -->
+                    <div id="autocomplete-default-state">
+                        <div class="p-3 border-bottom d-none" id="recent-searches-container">
+                            <span class="fw-bold text-muted small text-uppercase">Recent Searches</span>
+                            <div id="recent-searches-list" class="list-group list-group-flush mt-2"></div>
+                        </div>
+                        <div class="p-3">
+                            <span class="fw-bold text-muted small text-uppercase">Popular Searches</span>
+                            <div id="popular-searches-list" class="d-flex flex-wrap gap-2 mt-2">
+                                <span class="badge bg-secondary bg-opacity-10 text-body rounded-pill px-3 py-2 cursor-pointer popular-search-badge">Floral summer dress</span>
+                                <span class="badge bg-secondary bg-opacity-10 text-body rounded-pill px-3 py-2 cursor-pointer popular-search-badge">Men's formal shoes</span>
+                                <span class="badge bg-secondary bg-opacity-10 text-body rounded-pill px-3 py-2 cursor-pointer popular-search-badge">Kids winter jacket</span>
+                                <span class="badge bg-secondary bg-opacity-10 text-body rounded-pill px-3 py-2 cursor-pointer popular-search-badge">Minimalist watch</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Suggestions State (When typing) -->
+                    <div id="autocomplete-suggestions-state" class="d-none">
+                        <div class="p-3 border-bottom">
+                            <span class="fw-bold text-muted small text-uppercase">Suggestions</span>
+                        </div>
+                        <div id="autocomplete-suggestions-list" class="list-group list-group-flush">
+                            <!-- Items populated via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="image-preview-container" class="d-none mt-3 text-start position-absolute bg-body-tertiary p-2 rounded shadow-sm" style="top: 100%; left: 0; z-index: 100;">
+                    <div class="d-flex align-items-center gap-2">
+                        <img id="image-preview" src="" alt="Preview" style="height: 60px; width: 60px; object-fit: cover; border-radius: 8px;">
+                        <span class="text-muted small">Hybrid search active</span>
+                        <button class="btn btn-sm btn-link text-danger ms-auto" id="btn-clear-image"><i class="bi bi-x-lg"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Storefront Section (Dynamic Categories) -->
+        <section class="storefront-section mt-5" id="storefront-section">
+            <!-- Categories will be injected here by app.js -->
+        </section>
+
+        <!-- Search Results Section -->
+        <section class="results-section mt-5 d-none" id="results-section">
+            <div class="d-flex align-items-center mb-4 gap-3">
+                <button class="btn btn-link text-decoration-none p-0" id="btn-back-from-results" title="Go Back">
+                    <i class="bi bi-arrow-left fs-3" style="color: var(--text-color);"></i>
+                </button>
+                <h3 class="fw-bold mb-0">Results <span class="fs-6 fw-normal text-muted" id="results-count">(0)</span></h3>
+            </div>
+            <!-- Pinterest style masonry grid will be injected here -->
+            <div class="masonry-grid" id="products-grid">
+                <!-- Skeleton loader -->
+            </div>
+        </section>
+
+
+    </main>
+
+    <!-- Filter Offcanvas -->
+    <div class="offcanvas offcanvas-end filter-offcanvas glass-panel" tabindex="-1" id="filterOffcanvas" aria-labelledby="filterOffcanvasLabel">
+        <div class="offcanvas-header border-bottom border-secondary border-opacity-25">
+            <h5 class="offcanvas-title fw-bold" id="filterOffcanvasLabel"><i class="bi bi-funnel me-2"></i> Refine Search</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <form id="advanced-filter-form">
+                <div class="mb-3">
+                    <label class="form-label">Category / Product Type</label>
+                    <select class="form-select" id="filter-category">
+                        <option value="">All Categories</option>
+                        <option value="Kurta">Ethnic Wear (Kurtas, Sets)</option>
+                        <option value="Shirt">Shirts & Tops</option>
+                        <option value="Pant|Trousers|Jeans">Bottoms (Pants, Jeans)</option>
+                        <option value="Shoe|Footwear">Footwear</option>
+                        <option value="Watch|Accessory">Accessories & Watches</option>
+                        <option value="Suit|Blazer">Suits & Blazers</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Gender & Age</label>
+                    <select class="form-select" id="filter-gender">
+                        <option value="">Anyone</option>
+                        <option value="Men">Men's Fashion</option>
+                        <option value="Women">Women's Fashion</option>
+                        <option value="Kids|Boys|Girls">Kids' Fashion</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Price Range</label>
+                    <div class="d-flex gap-2">
+                        <input type="number" class="form-control" id="filter-price-min" placeholder="Min ₹" min="0">
+                        <input type="number" class="form-control" id="filter-price-max" placeholder="Max ₹" min="0">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Material</label>
+                    <select class="form-select" id="filter-material">
+                        <option value="">Any Material</option>
+                        <option value="Cotton">Cotton</option>
+                        <option value="Silk">Silk</option>
+                        <option value="Denim">Denim</option>
+                        <option value="Leather">Leather</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Color</label>
+                    <input type="text" class="form-control" id="filter-color" placeholder="e.g. Red, Black, Navy">
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="filter-sale">
+                    <label class="form-check-label fw-medium" for="filter-sale">On Sale / Discounted</label>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="filter-trending">
+                    <label class="form-check-label fw-medium" for="filter-trending">Trending Items Only</label>
+                </div>
+            </form>
+        </div>
+        <div class="offcanvas-footer p-3 border-top border-secondary border-opacity-25 d-flex gap-2">
+            <button type="button" class="btn btn-outline-secondary w-50" id="btn-clear-filters">Clear All</button>
+            <button type="button" class="btn btn-primary w-50" id="btn-apply-filters" data-bs-dismiss="offcanvas">Apply Filters</button>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="appToast" class="toast border-0 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header border-0">
+                <i class="bi bi-check-circle-fill text-success me-2" id="toast-icon"></i>
+                <strong class="me-auto" id="toast-title">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body fw-medium" id="toast-message"></div>
+        </div>
+    </div>
+
+    <!-- Image Preview Modal -->
+    <div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content bg-transparent border-0">
+                <div class="modal-header border-0 position-absolute w-100 p-4" style="z-index: 10;">
+                    <button type="button" class="btn btn-dark rounded-circle shadow ms-auto d-flex justify-content-center align-items-center" data-bs-dismiss="modal" aria-label="Close" style="width: 40px; height: 40px;">
+                        <i class="bi bi-x-lg fs-5"></i>
+                    </button>
+                </div>
+                <div class="modal-body text-center p-0 d-flex justify-content-center align-items-center" style="min-height: 50vh;">
+                    <img id="previewModalImage" src="" class="img-fluid shadow-lg" style="max-height: 90vh; object-fit: contain;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{% static 'js/api.js' %}?v=2"></script>
+    <script src="{% static 'js/app.js' %}?v=2"></script>
+</body>
+</html>

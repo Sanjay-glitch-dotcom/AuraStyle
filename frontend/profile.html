@@ -1,0 +1,363 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuraStyle - Premium Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=2">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top glass-nav shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">AuraStyle</a>
+            <div class="d-flex align-items-center gap-3 ms-auto">
+                <button class="btn btn-link nav-link" id="theme-toggle" title="Toggle Theme">
+                    <i class="bi bi-moon-stars"></i>
+                </button>
+                <div class="dropdown">
+                    <button class="btn btn-link nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle fs-5"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                        <li><a class="dropdown-item active" href="#">Dashboard</a></li>
+                        <li><a class="dropdown-item" href="/">Search & Discover</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="#" id="btn-logout">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Layout -->
+    <main class="container mt-5 pt-5 animate-fade-up">
+        <div class="row g-4">
+            <!-- Sidebar -->
+            <div class="col-lg-3">
+                <div class="card glass-panel border-0 sticky-top" style="top: 80px;">
+                    <div class="card-body p-4 text-center">
+                        <div class="mb-3 position-relative d-inline-block">
+                            <img src="https://ui-avatars.com/api/?name=User&background=random&color=fff&size=100" id="profile-avatar" class="rounded-circle shadow-sm" alt="Profile">
+                        </div>
+                        <h5 class="fw-bold mb-0" id="profile-name">Loading...</h5>
+                        <p class="text-muted small mb-4" id="profile-email">loading@aurastyle.com</p>
+                        
+                        <div class="nav flex-column nav-pills text-start" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <button class="nav-link active rounded-pill mb-2 text-start px-4 sidebar-nav-btn" data-target-tab="tab-overview" type="button" id="nav-overview-btn">
+                                <i class="bi bi-grid me-2"></i> Overview
+                            </button>
+                            <button class="nav-link rounded-pill mb-2 text-start px-4 sidebar-nav-btn" data-target-tab="tab-settings" type="button">
+                                <i class="bi bi-gear me-2"></i> Settings
+                            </button>
+                            <hr class="text-white-50 my-3">
+                            <button class="nav-link rounded-pill text-start px-4 text-danger fw-bold" id="btn-sidebar-logout" type="button">
+                                <i class="bi bi-box-arrow-right me-2"></i> Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="col-lg-9">
+                <div class="tab-content" id="v-pills-tabContent">
+                    
+                    <!-- Overview Tab -->
+                    <div class="tab-pane fade show active" id="tab-overview">
+                        <div class="d-flex align-items-center mb-4 gap-3">
+                            <a href="/" class="btn btn-link text-decoration-none p-0 text-muted" title="Back to Home">
+                                <i class="bi bi-arrow-left fs-4"></i>
+                            </a>
+                            <h3 class="fw-bold mb-0">Welcome back, <span id="welcome-name">...</span>!</h3>
+                        </div>
+                        
+                        <div class="row g-4 mb-5">
+                            <div class="col-md-4">
+                                <div class="card glass-card h-100 text-center p-4 overview-nav-card" data-target-tab="tab-favorites" style="cursor: pointer;">
+                                    <i class="bi bi-heart-fill fs-1 mb-2 text-danger opacity-75"></i>
+                                    <h2 class="fw-bold mb-0" id="stat-favorites">0</h2>
+                                    <p class="mb-0 opacity-75 text-muted">Saved Items</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card glass-card h-100 text-center p-4 overview-nav-card" data-target-tab="tab-history" style="cursor: pointer;">
+                                    <i class="bi bi-search fs-1 mb-2 text-info opacity-75"></i>
+                                    <h2 class="fw-bold mb-0" id="stat-searches">0</h2>
+                                    <p class="mb-0 opacity-75 text-muted">AI Searches</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card glass-card h-100 text-center p-4 overview-nav-card" data-target-tab="tab-addresses" style="cursor: pointer;">
+                                    <i class="bi bi-geo-alt-fill fs-1 mb-2 text-warning opacity-75"></i>
+                                    <h2 class="fw-bold mb-0" id="stat-addresses">0</h2>
+                                    <p class="mb-0 opacity-75 text-muted">Addresses</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 class="fw-bold mb-3">Recently Viewed</h4>
+                        <div class="alert alert-secondary border-0" role="alert">
+                            <i class="bi bi-info-circle me-2"></i> Start discovering new styles to populate your recently viewed history!
+                        </div>
+                    </div>
+
+                    <!-- Favorites Tab -->
+                    <div class="tab-pane fade" id="tab-favorites">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div class="d-flex align-items-center gap-3">
+                                <button class="btn btn-link text-decoration-none p-0 text-muted btn-back-to-overview" title="Back to Overview">
+                                    <i class="bi bi-arrow-left fs-4"></i>
+                                </button>
+                                <h3 class="fw-bold mb-0">Your Wishlist</h3>
+                            </div>
+                        </div>
+                        <div class="row row-cols-1 row-cols-md-3 g-4" id="favorites-grid">
+                            <div class="col w-100 text-center py-5 text-muted">
+                                <div class="spinner-border mb-3"></div>
+                                <p>Loading your favorite styles...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Search History Tab -->
+                    <div class="tab-pane fade" id="tab-history">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div class="d-flex align-items-center gap-3">
+                                <button class="btn btn-link text-decoration-none p-0 text-muted btn-back-to-overview" title="Back to Overview">
+                                    <i class="bi bi-arrow-left fs-4"></i>
+                                </button>
+                                <h3 class="fw-bold mb-0">AI Search History</h3>
+                            </div>
+                            <button class="btn btn-outline-danger rounded-pill fw-bold" id="btn-clear-all-trigger">
+                                <i class="bi bi-trash3 me-1"></i> Clear All
+                            </button>
+                        </div>
+                        <div class="card glass-panel">
+                            <div class="card-body p-0">
+                                <div class="list-group list-group-flush border-0" id="history-list">
+                                    <div class="text-center py-5 text-muted">
+                                        <div class="spinner-border mb-3"></div>
+                                        <p>Loading your discovery journey...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Addresses Tab -->
+                    <div class="tab-pane fade" id="tab-addresses">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div class="d-flex align-items-center gap-3">
+                                <button class="btn btn-link text-decoration-none p-0 text-muted btn-back-to-overview" title="Back to Overview">
+                                    <i class="bi bi-arrow-left fs-4"></i>
+                                </button>
+                                <h3 class="fw-bold mb-0">Delivery Addresses</h3>
+                            </div>
+                            <button class="btn btn-primary rounded-pill fw-bold" data-bs-toggle="modal" data-bs-target="#addAddressModal">
+                                <i class="bi bi-plus-lg me-1"></i> Add New Address
+                            </button>
+                        </div>
+                        <div class="row g-4" id="addresses-grid">
+                            <div class="col w-100 text-center py-5 text-muted">
+                                <div class="spinner-border mb-3"></div>
+                                <p>Loading your addresses...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Settings Tab -->
+                    <div class="tab-pane fade" id="tab-settings">
+                        <div class="d-flex align-items-center mb-4 gap-3">
+                            <button class="btn btn-link text-decoration-none p-0 text-muted btn-back-to-overview" title="Back to Overview">
+                                <i class="bi bi-arrow-left fs-4"></i>
+                            </button>
+                            <h3 class="fw-bold mb-0">Account Settings</h3>
+                        </div>
+                        <div class="card glass-panel mb-4">
+                            <div class="card-body p-4">
+                                <h5 class="fw-bold mb-3">Personal Information</h5>
+                                <form id="settings-form">
+                                    <div class="row g-3 mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted small">Username</label>
+                                            <input type="text" class="form-control" id="set-username" disabled>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted small">Email Address</label>
+                                            <input type="email" class="form-control" id="set-email" disabled>
+                                        </div>
+                                    </div>
+                                    <p class="text-muted small mb-0"><i class="bi bi-info-circle me-1"></i> For security reasons, email and username cannot be changed currently.</p>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <div class="card glass-panel border-danger">
+                            <div class="card-body p-4">
+                                <h5 class="fw-bold mb-1 text-danger">Danger Zone</h5>
+                                <p class="text-muted small mb-3">Once you delete your account, there is no going back. Please be certain.</p>
+                                <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountConfirmModal">Delete Account</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Address Modal -->
+    <div class="modal fade" id="addAddressModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="glass-panel border-0 shadow p-0">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold">New Address</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="address-form">
+                        <div class="mb-3">
+                            <label class="form-label">Title (e.g., Home, Work)</label>
+                            <input type="text" class="form-control" id="addr-title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Street Address</label>
+                            <input type="text" class="form-control" id="addr-street" required>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">City</label>
+                                <input type="text" class="form-control" id="addr-city" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">State</label>
+                                <input type="text" class="form-control" id="addr-state" required>
+                            </div>
+                        </div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Postal Code</label>
+                                <input type="text" class="form-control" id="addr-zip" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Country</label>
+                                <input type="text" class="form-control" id="addr-country" value="India" required>
+                            </div>
+                        </div>
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="addr-default">
+                            <label class="form-check-label" for="addr-default">Set as default address</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" id="btn-save-address">Save Address</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clear History Modal -->
+    <div class="modal fade" id="clearHistoryModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="glass-panel border-0 shadow p-0">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold text-danger">Clear Search History</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p>Are you sure you want to clear your entire search history? This action cannot be undone.</p>
+                    <div class="d-flex gap-2 justify-content-end mt-4">
+                        <button type="button" class="btn btn-light rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger rounded-pill px-4 fw-bold" id="btn-confirm-clear-history">Clear History</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="appToast" class="toast border-0 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header border-0">
+                <i class="bi bi-check-circle-fill text-success me-2" id="toast-icon"></i>
+                <strong class="me-auto" id="toast-title">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body fw-medium" id="toast-message"></div>
+        </div>
+    </div>
+
+    <!-- Image Preview Modal -->
+    <div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content bg-transparent border-0">
+                <div class="modal-header border-0 position-absolute w-100 p-4" style="z-index: 10;">
+                    <button type="button" class="btn btn-dark rounded-circle shadow ms-auto d-flex justify-content-center align-items-center" data-bs-dismiss="modal" aria-label="Close" style="width: 40px; height: 40px;">
+                        <i class="bi bi-x-lg fs-5"></i>
+                    </button>
+                </div>
+                <div class="modal-body text-center p-0 d-flex justify-content-center align-items-center" style="min-height: 50vh;">
+                    <img id="previewModalImage" src="" class="img-fluid shadow-lg" style="max-height: 90vh; object-fit: contain;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Account Confirmation Modal -->
+    <div class="modal fade" id="deleteAccountConfirmModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="glass-panel border-0 shadow p-0" style="border-radius: 16px;">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold text-danger">Delete Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4 text-center">
+                    <i class="bi bi-exclamation-triangle text-danger fs-1 mb-3"></i>
+                    <p class="mb-0">Are you sure you want to permanently delete your account? This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer border-0 pt-0 d-flex justify-content-center gap-3">
+                    <button type="button" class="btn btn-light rounded-pill px-4 fw-bold" data-bs-dismiss="modal">No, Keep My Account</button>
+                    <button type="button" class="btn btn-danger rounded-pill px-4 fw-bold" id="btn-delete-continue">Yes, Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Account Password Verification Modal -->
+    <div class="modal fade" id="deleteAccountPasswordModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="glass-panel border-0 shadow p-0" style="border-radius: 16px;">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold text-danger">Verify Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p class="text-muted small mb-3">Please enter your password to confirm account deletion.</p>
+                    <form id="delete-password-form">
+                        <div class="mb-3 position-relative">
+                            <input type="password" class="form-control" id="delete-password-input" placeholder="Enter your password" required>
+                            <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y text-muted toggle-password" style="z-index: 10;">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-0 pt-0 d-flex gap-2">
+                    <button type="button" class="btn btn-light rounded-pill flex-grow-1 fw-bold" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger rounded-pill flex-grow-1 fw-bold" id="btn-verify-delete">
+                        <span>Verify & Delete</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/api.js' %}?v=2"></script>
+    <script src="{% static 'js/profile.js' %}?v=2"></script>
+</body>
+</html>
