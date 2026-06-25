@@ -1,3 +1,12 @@
+---
+title: AuraStyle API
+emoji: 👗
+colorFrom: pink
+colorTo: purple
+sdk: docker
+app_port: 7860
+---
+
 # AuraStyle
 
 AuraStyle is a cutting-edge, AI-powered fashion discovery platform that helps users find clothing and fashion products using natural language, images, or voice search. By leveraging state-of-the-art multimodal AI, AuraStyle understands nuanced styles and visual preferences to recommend semantically and visually similar products, making fashion shopping smarter, faster, and deeply personalized.
