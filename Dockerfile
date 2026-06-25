@@ -5,10 +5,8 @@ FROM python:3.12-slim
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Install system dependencies (needed for OpenCV and PostgreSQL)
+# Install system dependencies (needed for PostgreSQL)
 RUN apt-get update && apt-get install -y \
-    libgl1-mesa-glx \
-    libglib2.0-0 \
     gcc \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
