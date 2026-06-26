@@ -779,7 +779,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // --- Storefront Logic ---
-    const STOREFRONT_CATEGORIES = ['Men', 'Women', 'Kids', 'Footwear', 'Accessories', 'Beauty & Personal Care', 'Sports & Fitness'];
+    const STOREFRONT_CATEGORIES = ['Men', 'Women', 'Kids', 'Footwear', 'Accessories', 'Beauty & Personal Care'];
     const storefrontSection = document.getElementById('storefront-section');
 
     async function loadStorefront() {
